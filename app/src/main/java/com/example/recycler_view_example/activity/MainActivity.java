@@ -16,6 +16,7 @@ import android.view.View;
 
 
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private List<Movie> movieList = new ArrayList<Movie>();
     private View.OnClickListener onItemClickListener;
+    private View.OnLongClickListener onLongitemClickListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +45,51 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration( new DividerItemDecoration(this, LinearLayout.VERTICAL)); // create vertical divider between each item
         recyclerView.setAdapter(adapter);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recyclerView.setHasFixedSize(true);
 
+        // Click event
+        createListener();
+        // onClick - step 1 of 4: Set OnItemClickListener to the adapter
+        adapter.setOnItemClickListener(onItemClickListener, onLongitemClickListener);
+
+    }
+
+    public void createListener() {
+        onItemClickListener = new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // onClick - step 4 of 4: Call getTag() on the view
+                // This view Holder will have the values
+                RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+                int position = viewHolder.getAdapterPosition();
+                Movie movie = movieList.get(position);
+                Toast.makeText(
+                        getApplicationContext(),
+                        movie.getTitle() + " - " + movie.getYear(),
+                        Toast.LENGTH_SHORT
+                ).show();
+            }
+        };
+
+        onLongitemClickListener = new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                // onClick - step 4 of 4: Call getTag() on the view
+                // This view Holder will have the values
+                RecyclerView.ViewHolder viewHolder = (RecyclerView.ViewHolder) v.getTag();
+                int position = viewHolder.getAdapterPosition();
+                Movie movie = movieList.get(position);
+                Toast.makeText(
+                        getApplicationContext(),
+                        movie.getGender(),
+                        Toast.LENGTH_SHORT
+                ).show();
+                return false;
+            }
+        };
 
     }
 

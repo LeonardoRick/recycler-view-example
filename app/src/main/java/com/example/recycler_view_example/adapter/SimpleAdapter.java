@@ -16,9 +16,19 @@ import androidx.recyclerview.widget.RecyclerView;
 public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.MyViewHolder> {
 
     private List<Movie> movieList;
+    private View.OnClickListener clickListener;
+    private View.OnLongClickListener longClickListener;
 
     public SimpleAdapter (List<Movie> list) {
         this.movieList = list;
+    }
+
+    /**
+     * onClick - step 2 of 4: Assign itemClickListener to your local View.OnClickListener variable
+     */
+    public void setOnItemClickListener(View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
+        this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
     }
 
     /**
@@ -54,6 +64,9 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.MyViewHold
         return movieList.size();
     }
 
+    /**
+     * inner class MyViewHolder
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView title, year, gender;
         public MyViewHolder(@NonNull View itemView) {
@@ -63,6 +76,15 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.MyViewHold
             year = itemView.findViewById(R.id.textYear);
             gender = itemView.findViewById(R.id.textGender);
 
+            /**
+             * onClick - step 3 of 4: setTag() as current view holder along with
+             * setOnClickListener() as your local View.OnClickListener variable.
+             * You can set the same local itemClickListener on multiple views
+             * and differentiate those clicks using view's id.
+             */
+            itemView.setTag(this);
+            itemView.setOnClickListener(clickListener);
+            itemView.setOnLongClickListener(longClickListener);
         }
     }
 }
