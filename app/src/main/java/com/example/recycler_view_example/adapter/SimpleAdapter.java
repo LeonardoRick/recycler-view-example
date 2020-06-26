@@ -24,14 +24,6 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.MyViewHold
     }
 
     /**
-     * onClick - step 2 of 4: Assign itemClickListener to your local View.OnClickListener variable
-     */
-    public void setOnItemClickListener(View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
-        this.clickListener = clickListener;
-        this.longClickListener = longClickListener;
-    }
-
-    /**
      * To create firsts views
      */
     @NonNull
@@ -55,13 +47,21 @@ public class SimpleAdapter extends RecyclerView.Adapter<SimpleAdapter.MyViewHold
         holder.gender.setText(movie.getGender());
     }
 
-
     /**
      * How many times we are supposed to call onBindViewHolder() in one shot
      */
     @Override
     public int getItemCount() {
         return movieList.size();
+    }
+
+
+    /**
+     * onClick - step 2 of 4: Assign itemClickListener to your local View.OnClickListener variable
+     */
+    public void setOnItemClickListener(View.OnClickListener clickListener, View.OnLongClickListener longClickListener) {
+        this.clickListener = clickListener;
+        this.longClickListener = longClickListener;
     }
 
     /**
